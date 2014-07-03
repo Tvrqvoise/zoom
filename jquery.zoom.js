@@ -14,11 +14,13 @@
 		touch: true, // enables a touch fallback
 		onZoomIn: false,
 		onZoomOut: false,
-		magnify: 1
+		magnify: 1,
+        invertY: true,
+        invertX: true
 	};
 
 	// Core Zoom Logic, independent of event listeners.
-	$.zoom = function(target, source, img, magnify) {
+	$.zoom = function(target, source, img, settings) {
 		var targetHeight,
 			targetWidth,
 			sourceHeight,
@@ -26,6 +28,7 @@
 			xRatio,
 			yRatio,
 			offset,
+            magnify = settings.magnify,
 			position = $(target).css('position'),
 			$source = $(source);
 
@@ -69,8 +72,8 @@
 				offset = $source.offset();
 			},
 			move: function (e) {
-				var left = (e.pageX - offset.left),
-					top = (e.pageY - offset.top);
+                var left = settings.invertX ? (e.pageX - offset.left) : (offset.left + sourceWidth) - e.pageX,
+                    top = settings.invertY ? (e.pageY - offset.top) : (offset.top + sourceHeight) - e.pageY;
 
 				top = Math.max(Math.min(top, sourceHeight), 0);
 				left = Math.max(Math.min(left, sourceWidth), 0);
@@ -122,7 +125,7 @@
 			}());
 
 			img.onload = function () {
-				var zoom = $.zoom(target, source, img, settings.magnify);
+				var zoom = $.zoom(target, source, img, settings);
 
 				function start(e) {
 					zoom.init();
