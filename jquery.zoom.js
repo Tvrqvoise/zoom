@@ -15,8 +15,8 @@
 		onZoomIn: false,
 		onZoomOut: false,
 		magnify: 1,
-        invertY: true,
-        invertX: true
+		invertY: true,
+		invertX: true
 	};
 
 	// Core Zoom Logic, independent of event listeners.
@@ -28,7 +28,7 @@
 			xRatio,
 			yRatio,
 			offset,
-            magnify = settings.magnify,
+			magnify = settings.magnify,
 			position = $(target).css('position'),
 			$source = $(source);
 
